@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace WebApplication1.Endpoints;
+﻿namespace MockAPI.Endpoints;
 
 public static class NewsEndpoint
 {
-    public static void RegisterNewsEndpoints(this IEndpointRouteBuilder endpointRouteBuilder) {
+    public static void RegisterNewsEndpoints(this IEndpointRouteBuilder endpointRouteBuilder)
+    {
         var groupBuilder = endpointRouteBuilder.MapGroup("api/news/")
             .WithTags("News")
             .WithDescription("Get the latest news")

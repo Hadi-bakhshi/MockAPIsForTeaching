@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace WebApplication1.Configuration.Extensions;
+namespace MockAPI.Configuration.Extensions;
 
 public static class SwaggerConfiguration
 {

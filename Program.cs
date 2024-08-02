@@ -1,5 +1,5 @@
-using WebApplication1.Configuration.Extensions;
-using WebApplication1.Endpoints;
+using MockAPI.Configuration.Extensions;
+using MockAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 

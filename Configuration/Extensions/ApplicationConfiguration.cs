@@ -1,6 +1,6 @@
-﻿using WebApplication1.Infrastructure;
+﻿using MockAPI.Infrastructure;
 
-namespace WebApplication1.Configuration.Extensions;
+namespace MockAPI.Configuration.Extensions;
 
 public static class ApplicationConfiguration
 {
