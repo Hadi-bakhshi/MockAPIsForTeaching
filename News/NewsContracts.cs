@@ -16,5 +16,3 @@ public class CreateNewsRequest
     [DisplayName("Url")]
     public required string Url { get; set; }
 }
-
-

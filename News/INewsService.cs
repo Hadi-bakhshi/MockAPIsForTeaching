@@ -18,4 +18,6 @@ public interface INewsService
     string GetFullPath();
 
     Task<News> CreateNewsAsync(News news);
+
+    Task<News> GetNewsByIdAsync(Guid id);
 }

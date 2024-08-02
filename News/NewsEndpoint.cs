@@ -27,6 +27,13 @@ public static class NewsEndpoint
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .WithSummary("Create news")
             .WithDescription("\n    POST api/news/createNews");
+
+        groupBuilder.MapGet("retrieveNewsById/{id:guid}", RetrieveNewsByIdAsync)
+            .Produces<News>()
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Get a specific news")
+            .WithDescription("\n    GET api/news/retrieveNewsById");
     }
 
     public static async Task<IResult> RetrieveNewsAsync(INewsService newsService)
@@ -35,11 +42,16 @@ public static class NewsEndpoint
 
         return Results.Ok(result);
     }
-    public static async Task<IResult> CreateNewsAsync([FromBody] CreateNewsRequest createNewsRequest,INewsService newsService)
+    public static async Task<IResult> CreateNewsAsync([FromBody] CreateNewsRequest createNewsRequest, INewsService newsService)
     {
         var mappedRequestToServiceParameter = createNewsRequest.Adapt<News>();
         var result = await newsService.CreateNewsAsync(mappedRequestToServiceParameter);
         return Results.Created(nameof(CreateNewsAsync), result);
+    }
+    public static async Task<IResult> RetrieveNewsByIdAsync([FromRoute] Guid id, INewsService newsService)
+    {
+        var result = await newsService.GetNewsByIdAsync(id);
+        return Results.Ok(result);
     }
 
 }

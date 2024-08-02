@@ -44,6 +44,13 @@ public class GlobalExceptionHandler : IExceptionHandler
                 "One or more validation errors has occurred",
                null
                 ),
+            BadHttpRequestException badHttpRequestException => new ExceptionDetails(
+                StatusCodes.Status400BadRequest,
+                "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                "Bad Request",
+                exception.Message,
+               null
+                ),
             _ => new ExceptionDetails(
                  StatusCodes.Status500InternalServerError,
                 "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1",

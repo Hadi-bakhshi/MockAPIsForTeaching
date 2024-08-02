@@ -1,5 +1,4 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace MockAPI.News;
@@ -42,7 +41,6 @@ public class NewsService : INewsService
 
     }
 
-
     public async Task<List<News>> RetrieveNews()
     {
 
@@ -84,5 +82,21 @@ public class NewsService : INewsService
         await File.WriteAllBytesAsync(GetFullPath(), utf8Bytes);
 
         return news;
+    }
+
+    public async Task<News> GetNewsByIdAsync(Guid id)
+    {
+        var allNews = await RetrieveNews();
+
+        var foundNews = allNews
+            .Where(news=> news.Id == id)
+            .FirstOrDefault();
+
+        if(foundNews is null)
+        {
+            throw new BadHttpRequestException("Passed Id wasn't found");
+        }
+
+        return foundNews;
     }
 }
