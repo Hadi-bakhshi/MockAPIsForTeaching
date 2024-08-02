@@ -16,4 +16,6 @@ public interface INewsService
     /// </summary>
     /// <returns>full path</returns>
     string GetFullPath();
+
+    Task<News> CreateNewsAsync(News news);
 }

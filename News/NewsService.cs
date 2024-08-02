@@ -1,7 +1,6 @@
 ﻿
 using Newtonsoft.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace MockAPI.News;
 
@@ -74,5 +73,16 @@ public class NewsService : INewsService
 
     }
 
+    public async Task<News> CreateNewsAsync(News news)
+    {
+        news.Id = Guid.NewGuid();
+        var allNews = await RetrieveNews();
+        allNews.Add(news);
 
+        var utf8Bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(allNews);
+
+        await File.WriteAllBytesAsync(GetFullPath(), utf8Bytes);
+
+        return news;
+    }
 }
