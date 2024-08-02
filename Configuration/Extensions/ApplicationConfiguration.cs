@@ -22,6 +22,8 @@ public static class ApplicationConfiguration
                                   policy.AllowAnyMethod();
                               });
         });
+
+        builder.Services.AddServicesConfigurations();
         return builder;
     }
 }

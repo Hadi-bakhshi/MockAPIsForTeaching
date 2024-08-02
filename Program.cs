@@ -1,5 +1,5 @@
 using MockAPI.Configuration.Extensions;
-using MockAPI.Endpoints;
+using MockAPI.News;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,6 @@
-﻿namespace MockAPI.Endpoints;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+
+namespace MockAPI.News;
 
 public static class NewsEndpoint
 {
@@ -9,22 +11,17 @@ public static class NewsEndpoint
             .WithDescription("Get the latest news")
             .WithOpenApi();
 
-        groupBuilder.MapGet("retrieveNews", RetrieveNews)
-            .Produces<string>()
+        groupBuilder.MapGet("retrieveNews", RetrieveNewsAsync)
+            .Produces<List<News>>()
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .WithSummary("Get all news")
             .WithDescription("\n    GET api/news/retrieveNews");
     }
 
-    public static IResult RetrieveNews()
+    public static async Task<IResult> RetrieveNewsAsync(INewsService newsService)
     {
-        try
-        {
-            return Results.Ok("Hello from me");
-        }
-        catch (Exception ex)
-        {
-            return Results.Problem(ex.StackTrace, ex.Message, StatusCodes.Status500InternalServerError);
-        }
+        var result = await newsService.RetrieveNews();
+        
+        return Results.Ok(result);
     }
 }
