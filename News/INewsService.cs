@@ -20,4 +20,8 @@ public interface INewsService
     Task<News> CreateNewsAsync(News news);
 
     Task<News> GetNewsByIdAsync(Guid id);
+
+    Task<News> UpdateNewsAsync(News news);
+
+    Task DeleteNewsAsync(Guid id);
 }

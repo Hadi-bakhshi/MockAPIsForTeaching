@@ -89,14 +89,60 @@ public class NewsService : INewsService
         var allNews = await RetrieveNews();
 
         var foundNews = allNews
-            .Where(news=> news.Id == id)
+            .Where(news => news.Id == id)
             .FirstOrDefault();
 
-        if(foundNews is null)
+        if (foundNews is null)
         {
             throw new BadHttpRequestException("Passed Id wasn't found");
         }
 
         return foundNews;
+    }
+
+    public async Task<News> UpdateNewsAsync(News news)
+    {
+        var allNews = await RetrieveNews();
+
+        var foundNews = allNews
+            .Where(n => n.Id == news.Id)
+            .FirstOrDefault();
+
+        if (foundNews is null)
+        {
+            throw new BadHttpRequestException("Passed Id wasn't found");
+        }
+
+        if (foundNews is not null)
+        {
+            foundNews.Title = news.Title == null ? string.Empty : news.Title;
+            foundNews.Description = news.Description == null ? string.Empty : news.Description;
+            foundNews.Category = news.Category == null ? string.Empty : news.Category;
+            foundNews.Url = news.Url == null ? string.Empty : news.Url;
+        }
+
+        var utf8Bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(allNews);
+
+        await File.WriteAllBytesAsync(GetFullPath(), utf8Bytes);
+
+        return foundNews;
+    }
+
+    public async Task DeleteNewsAsync(Guid id)
+    {
+        var allNews = await RetrieveNews();
+
+        var foundNews = allNews.Where(n => n.Id == id).FirstOrDefault();
+        if (foundNews is null)
+        {
+            throw new BadHttpRequestException("Passed Id wasn't found");
+        }
+        if (foundNews is not null)
+        {
+            allNews.Remove(foundNews);
+        }
+        var utf8Bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(allNews);
+
+        await File.WriteAllBytesAsync(GetFullPath(), utf8Bytes);
     }
 }

@@ -34,6 +34,19 @@ public static class NewsEndpoint
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .WithSummary("Get a specific news")
             .WithDescription("\n    GET api/news/retrieveNewsById");
+
+        groupBuilder.MapPut("updateNews", UpdateNewsAsync)
+            .Produces<News>()
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Update news")
+            .WithDescription("\n    PUT api/news/updateNews");
+
+        groupBuilder.MapDelete("removeNewsById/{id:guid}", RemoveNewsByIdAsync)
+           .ProducesValidationProblem()
+           .ProducesProblem(StatusCodes.Status500InternalServerError)
+           .WithSummary("Remove a specific news")
+           .WithDescription("\n    DELETE api/news/removeNewsById");
     }
 
     public static async Task<IResult> RetrieveNewsAsync(INewsService newsService)
@@ -52,6 +65,18 @@ public static class NewsEndpoint
     {
         var result = await newsService.GetNewsByIdAsync(id);
         return Results.Ok(result);
+    }
+    public static async Task<IResult> UpdateNewsAsync([FromBody] UpdateNewsRequest updateNewsRequest, INewsService newsService)
+    {
+        var mappedRequestToServiceParameter = updateNewsRequest.Adapt<News>();
+        var result = await newsService.UpdateNewsAsync(mappedRequestToServiceParameter);
+        return Results.Ok(result);
+    }
+
+    public static async Task<IResult> RemoveNewsByIdAsync([FromRoute] Guid id, INewsService newsService)
+    {
+        await newsService.DeleteNewsAsync(id);
+        return Results.Ok("Deleted");
     }
 
 }

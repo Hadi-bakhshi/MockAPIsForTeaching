@@ -16,3 +16,19 @@ public class CreateNewsRequest
     [DisplayName("Url")]
     public required string Url { get; set; }
 }
+public class UpdateNewsRequest
+{
+    [DisplayName("Title")]
+    public Guid Id { get; set; }
+    [DisplayName("Title")]
+    public string? Title { get; set; }
+
+    [DisplayName("Description")]
+    public string? Description { get; set; }
+
+    [DisplayName("Category")]
+    public string? Category { get; set; }
+
+    [DisplayName("Url")]
+    public string? Url { get; set; }
+}
